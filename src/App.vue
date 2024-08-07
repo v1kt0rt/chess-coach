@@ -1,16 +1,21 @@
 <template>
-	<div>This is in progress</div>
+	<div>This is a prototype for practicing openings<br/>based on Licess opening explorer.</div>
 	<div id="myBoard" style="width: 400px" />
+	<div>{{status}}</div>
+	<div v-if="openingInfo!==null">Opening Info: {{openingInfo}}</div>
 </template>
 
 <script>
+import { getData } from "./logic.js";
+
 const game = new Chess();
 let board = null;
 
 export default {
 	data() {
 		return {
-
+			status: null,
+			openingInfo: null
 		}
 	},
 	methods: {
@@ -39,7 +44,10 @@ export default {
 			board.position(game.fen());
 		},
 		updateStatus() {
-			var status = '';
+			let fen = game.fen();
+			//getData("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR%20w%20KQkq%20-%200%201");
+			getData(fen, this.updateOpeningInfo);
+			this.status = "";
 			var moveColor = 'White';
 			if (game.turn() === 'b') {
 				moveColor = 'Black';
@@ -47,31 +55,37 @@ export default {
 
 			// checkmate?
 			if (game.in_checkmate()) {
-				status = 'Game over, ' + moveColor + ' is in checkmate.';
+				this.status = 'Game over, ' + moveColor + ' is in checkmate.';
 			}
 
 			// draw?
 			else if (game.in_draw()) {
-				status = 'Game over, drawn position';
+				this.status = 'Game over, drawn position';
 			}
 
 			// game still on
 			else {
-				status = moveColor + ' to move';
+				this.status = moveColor + ' to move';
 
-			// check?
-			if (game.in_check()) {
-				status += ', ' + moveColor + ' is in check';
+				// check?
+				if (game.in_check()) {
+					this.status += ', ' + moveColor + ' is in check';
+				}
 			}
-			}
-
-		//$status.html(status)
 		//$fen.html(game.fen())
 		//$pgn.html(game.pgn())
+		},
+		updateOpeningInfo(response) {
+			let data = response.data;
+			if (data.opening) {
+				this.openingInfo = data.opening.eco + " " + data.opening.name;
+			} else {
+				this.openingInfo = null;
+			}
+			
 		}
 	},
 	mounted() {
-		console.log("mounted");
 		let config = {
 			draggable: true,
 			position: 'start',
