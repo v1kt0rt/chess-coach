@@ -2,7 +2,14 @@
 	<div>This is a prototype for practicing openings<br/>based on Licess opening explorer.</div>
 	<div id="myBoard" style="width: 400px" />
 	<div>{{status}}</div>
-	<div v-if="openingInfo!==null">Opening Info: {{openingInfo}}</div>
+	<div v-if="openingInfo!==null">Opening: {{openingInfo}}</div>
+	<div v-if="stats!==null">Stats: {{stats}}</div>
+	<div>Number of moves in DB: {{moves.length}}</div>
+	<div v-if="moves.length>0">Choose a move:
+		<button @click="chooseMove(0)">Most popular</button>
+		<button @click="chooseMove(1)">Second most popular</button>
+		<button @click="chooseMove(2)">Third most popular</button>
+	</div>
 </template>
 
 <script>
@@ -15,10 +22,18 @@ export default {
 	data() {
 		return {
 			status: null,
-			openingInfo: null
+			stats: null,
+			openingInfo: null,
+			moves: []
 		}
 	},
 	methods: {
+		chooseMove(index) {
+			let move = this.moves[index];
+			game.move(move.san);
+			board.position(game.fen());
+			this.updateStatus();
+		},
 		onDragStart(source, piece, position, orientation) {
 			if (game.game_over()) {
 				return false;
@@ -28,6 +43,9 @@ export default {
 					(game.turn() === 'b' && piece.search(/^w/) !== -1)) {
 				return false;
 			}
+		},
+		onChange(oldPos, newPos) {
+			// do nothing
 		},
 		onDrop(source, target) {
 			let move = game.move({
@@ -82,7 +100,8 @@ export default {
 			} else {
 				this.openingInfo = null;
 			}
-			
+			this.stats = "W:" + data.white + " B:" + data.black + " draw:" + data.draws;
+			this.moves = data.moves;
 		}
 	},
 	mounted() {
@@ -91,7 +110,8 @@ export default {
 			position: 'start',
 			onDragStart: this.onDragStart,
 			onDrop: this.onDrop,
-			onSnapEnd: this.onSnapEnd
+			onSnapEnd: this.onSnapEnd,
+			onChange: this.onChange
 		}
 		board = Chessboard('myBoard', config);
 	}
