@@ -10,6 +10,8 @@
 		<button @click="chooseMove(1)">Second most popular</button>
 		<button @click="chooseMove(2)">Third most popular</button>
 	</div>
+	<button class="control fas fa-chevron-left" disabled="true"/>&nbsp;
+	<button class="control fas fa-sync" @click="onFlipClicked" />
 </template>
 
 <script>
@@ -33,6 +35,9 @@ export default {
 			game.move(move.san);
 			board.position(game.fen());
 			this.updateStatus();
+		},
+		onFlipClicked() {
+			board.flip();
 		},
 		onDragStart(source, piece, position, orientation) {
 			if (game.game_over()) {
