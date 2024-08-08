@@ -5,7 +5,7 @@
 	<div v-if="openingInfo!==null">Opening: {{openingInfo}}</div>
 	<div v-if="stats!==null">Stats: {{stats}}</div>
 	<div>Number of moves in DB: {{moves.length}}</div>
-	<div v-if="moves.length>0">Choose a move:
+	<div v-if="moves.length>0">Choose a move:<br />
 		<button @click="chooseMove(0)">Most popular</button>
 		<button @click="chooseMove(1)">Second most popular</button>
 		<button @click="chooseMove(2)">Third most popular</button>
