@@ -1,6 +1,10 @@
 <template>
 	<div>This is a prototype for practicing openings<br/>based on Licess opening explorer.</div>
 	<div id="myBoard" style="width: 400px" />
+	<div>
+		<button class="control fas fa-chevron-left" @click="onBackClicked" :disabled="moveStack.length == 1"/>&nbsp;
+		<button class="control fas fa-sync" @click="onFlipClicked" />
+	</div>
 	<div>{{status}}</div>
 	<div v-if="openingInfo!==null">Opening: {{openingInfo}}</div>
 	<div v-if="stats!==null">Stats: {{stats}}</div>
@@ -10,8 +14,6 @@
 		<button @click="chooseMove(1)">Second most popular</button>
 		<button @click="chooseMove(2)">Third most popular</button>
 	</div>
-	<button class="control fas fa-chevron-left" disabled="true"/>&nbsp;
-	<button class="control fas fa-sync" @click="onFlipClicked" />
 </template>
 
 <script>
@@ -26,6 +28,7 @@ export default {
 			status: null,
 			stats: null,
 			openingInfo: null,
+			moveStack: [],
 			moves: []
 		}
 	},
@@ -34,10 +37,32 @@ export default {
 			let move = this.moves[index];
 			game.move(move.san);
 			board.position(game.fen());
+			this.moveStack.push({ fen: game.fen() });
 			this.updateStatus();
+		},
+		onKeyUp(e) {
+			console.log('KEYPRESS EVENT', e);
+			if (e.key === "ArrowLeft") {
+				this.onBackClicked();
+			}
+			if (e.key === "f") {
+				this.onFlipClicked();
+			}
 		},
 		onFlipClicked() {
 			board.flip();
+		},
+		onBackClicked() {
+			if (this.moveStack.length == 1) {
+				return;
+			}
+			this.moveStack.pop();
+			let lastMove = this.moveStack.pop();
+			let fen = lastMove.fen;
+			game.load(fen);
+			board.position(fen);
+			this.moveStack.push({ fen: fen });
+			this.updateStatus();
 		},
 		onDragStart(source, piece, position, orientation) {
 			if (game.game_over()) {
@@ -61,6 +86,7 @@ export default {
 			if (move === null) {
 				return "snapback";
 			}
+			this.moveStack.push({ fen: game.fen() });
 			this.updateStatus()
 		},
 		onSnapEnd() {
@@ -68,7 +94,6 @@ export default {
 		},
 		updateStatus() {
 			let fen = game.fen();
-			//getData("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR%20w%20KQkq%20-%200%201");
 			getData(fen, this.updateOpeningInfo);
 			this.status = "";
 			var moveColor = 'White';
@@ -95,8 +120,6 @@ export default {
 					this.status += ', ' + moveColor + ' is in check';
 				}
 			}
-		//$fen.html(game.fen())
-		//$pgn.html(game.pgn())
 		},
 		updateOpeningInfo(response) {
 			let data = response.data;
@@ -109,6 +132,12 @@ export default {
 			this.moves = data.moves;
 		}
 	},
+	created() {
+		window.addEventListener('keyup', this.onKeyUp);
+	},
+	beforeDestroy() {
+		window.removeEventListener('keyup', this.onKeyUp);
+	},
 	mounted() {
 		let config = {
 			draggable: true,
@@ -119,6 +148,7 @@ export default {
 			onChange: this.onChange
 		}
 		board = Chessboard('myBoard', config);
+		this.moveStack.push({fen : game.fen() });
 	}
 }
 </script>
