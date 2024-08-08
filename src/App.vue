@@ -1,18 +1,28 @@
 <template>
-	<div>This is a prototype for practicing openings<br/>based on Licess opening explorer.</div>
-	<div id="myBoard" style="width: 400px" />
-	<div>
-		<button class="control fas fa-chevron-left" @click="onBackClicked" :disabled="moveStack.length == 1"/>&nbsp;
-		<button class="control fas fa-sync" @click="onFlipClicked" />
-	</div>
-	<div>{{status}}</div>
-	<div v-if="openingInfo!==null">Opening: {{openingInfo}}</div>
-	<div v-if="stats!==null">Stats: {{stats}}</div>
-	<div>Number of moves in DB: {{moves.length}}</div>
-	<div v-if="moves.length>0">Choose a move:<br />
-		<button @click="chooseMove(0)">Most popular</button>
-		<button @click="chooseMove(1)">Second most popular</button>
-		<button @click="chooseMove(2)">Third most popular</button>
+	<div class="flex-container">
+		<div id="top-fix-content">
+			<div style="text-align: center">This is a prototype for practicing openings<br/>based on Licess opening explorer.</div>
+			<div id="myBoard" />
+			<div style="padding: 8px;">
+				<button class="control fas fa-chevron-left" @click="onBackClicked" :disabled="moveStack.length == 1"/>&nbsp;
+				<button class="control fas fa-sync" @click="onFlipClicked" />
+			</div>
+			<div>{{status}}</div>
+			<div v-if="openingInfo!==null">Opening: {{openingInfo}}</div>
+			<div v-if="stats!==null">Stats: {{stats}}</div>
+			
+		</div>
+
+		<div class="dynamic-content">
+			<div v-if="moves.length>0">Number of moves in DB: {{moves.length}}</div>
+			<div v-if="moves.length>0">Choose a move:<br />
+				<button @click="chooseMove(0)">Most popular</button>
+				<button @click="chooseMove(1)">Second most popular</button>
+				<button @click="chooseMove(2)">Third most popular</button>
+			</div>
+		</div>
+
+		<div style="text-align: center">Under construction.</div>
 	</div>
 </template>
 
