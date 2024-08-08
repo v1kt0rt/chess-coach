@@ -14,11 +14,25 @@
 		</div>
 
 		<div class="dynamic-content">
-			<div v-if="moves.length>0">Number of moves in DB: {{moves.length}}</div>
-			<div v-if="moves.length>0">Choose a move:<br />
-				<button @click="chooseMove(0)">Most popular</button>
-				<button @click="chooseMove(1)">Second most popular</button>
-				<button @click="chooseMove(2)">Third most popular</button>
+			<div class="dynamic-content-inner">
+				<div v-if="moves.length>0">Number of moves in DB: {{moves.length}}</div>
+				<div v-if="moves.length>0">Choose a move:<br />
+					<button @click="chooseMove(0)">Most popular</button>
+					<button @click="chooseMove(1)">Second most popular</button>
+					<button @click="chooseMove(2)">Third most popular</button>
+				</div>
+				<br />
+				<div>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tortor at lacinia volutpat.
+					Mauris dignissim nisi vel elit eleifend, eget sodales neque fringilla. Vivamus lacinia feugiat consectetur.
+					Duis consectetur, justo et dapibus ullamcorper, arcu eros egestas ex, nec porttitor justo sapien quis mi.
+					Curabitur maximus orci augue, id molestie dolor consequat non. Proin euismod consectetur efficitur.
+					Suspendisse justo massa, auctor sollicitudin ornare quis, euismod a augue.
+					Nam sagittis et sem sed ornare. Aliquam laoreet nunc eros, eu malesuada turpis maximus non.
+					Etiam neque tortor, facilisis in elit vitae, condimentum pellentesque augue.
+					Etiam gravida libero ut lacus pellentesque dictum. Phasellus dictum eros dolor, vulputate accumsan augue tempor ut.
+					Vivamus semper sapien dui, in lacinia magna finibus ac. Suspendisse malesuada elit eu tortor eleifend viverra.
+				</div>
 			</div>
 		</div>
 

@@ -3,9 +3,8 @@ body {
 	margin:0;
 }
 .flex-container {
-	background-color: #eeeeee;
-	display:flex; flex-direction:column; height:100vh;
-	width: 380px;
+	display:flex; flex-direction:column; height:100%;
+	width: 370;
 	margin: 0 auto;
 }
 #top-fix-content {
@@ -15,7 +14,10 @@ body {
 	width: 100%;
 }
 .dynamic-content {
-	background-color:#dddddd; flex:1; overflow-y: auto;
+	flex:1; overflow-y: auto;
+}
+.dynamic-content-inner {
+	margin: 4px;
 }
 .control {
 	cursor: pointer;
