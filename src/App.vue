@@ -1,7 +1,6 @@
 <template>
 	<div class="flex-container">
 		<div id="top-fix-content">
-			<div style="text-align: center">This is a prototype for practicing openings<br/>based on Licess opening explorer.</div>
 			<div id="myBoard" />
 			<div style="padding: 8px;">
 				<button class="control fas fa-chevron-left" @click="onBackClicked" :disabled="moveStack.length == 1"/>&nbsp;
@@ -11,9 +10,8 @@
 			<div v-if="openingInfo!==null">{{openingInfo}}</div>
 			<div v-if="whiteWins!==null">
 				<table class="stats">
-					<tr><td></td><th>White</th><th>Black</th><th>Draw</th></tr>
-					<tr><th>Lichess</th><td>{{whiteWins}}</td><td>{{blackWins}}</td><td>{{draw}}</td></tr>
-					<tr><th>Player</th><td>{{pWhiteWins}}</td><td>{{pBlackWins}}</td><td>{{pDraw}}</td></tr>
+					<tr><th>Lichess</th><td class="white">{{whiteWins}}</td><td class="draw">{{draw}}</td><td class="black">{{blackWins}}</td></tr>
+					<tr><th>Player</th><td class="white">{{pWhiteWins}}</td><td class="draw">{{pDraw}}</td><td class="black">{{pBlackWins}}</td></tr>
 				</table>
 			</div>
 			
@@ -29,20 +27,11 @@
 				</div>
 				<br />
 				<div>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ornare tortor at lacinia volutpat.
-					Mauris dignissim nisi vel elit eleifend, eget sodales neque fringilla. Vivamus lacinia feugiat consectetur.
-					Duis consectetur, justo et dapibus ullamcorper, arcu eros egestas ex, nec porttitor justo sapien quis mi.
-					Curabitur maximus orci augue, id molestie dolor consequat non. Proin euismod consectetur efficitur.
-					Suspendisse justo massa, auctor sollicitudin ornare quis, euismod a augue.
-					Nam sagittis et sem sed ornare. Aliquam laoreet nunc eros, eu malesuada turpis maximus non.
-					Etiam neque tortor, facilisis in elit vitae, condimentum pellentesque augue.
-					Etiam gravida libero ut lacus pellentesque dictum. Phasellus dictum eros dolor, vulputate accumsan augue tempor ut.
-					Vivamus semper sapien dui, in lacinia magna finibus ac. Suspendisse malesuada elit eu tortor eleifend viverra.
+					This is a prototype for practicing openings based on Licess opening explorer.
+					It's under construction.
 				</div>
 			</div>
 		</div>
-
-		<div style="text-align: center">Under construction.</div>
 	</div>
 </template>
 

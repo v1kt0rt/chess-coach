@@ -5,6 +5,7 @@ body {
 	height:100%;
 	margin:0;
 	overscroll-behavior: none;
+	font-size: 12px;
 }
 .flex-container {
 	display:flex; flex-direction:column; height:100%;
@@ -20,10 +21,14 @@ body {
 table.stats {
 	width:100%;
 	border: solid 1px #eeeeee;
+	font-size: 12px;
 }
 table.stats td {
 	text-align: center;
 }
+table.stats td.white { background-color: white; color: black; }
+table.stats td.draw { background-color: gray; color: black; }
+table.stats td.black { background-color: black; color: white; }
 .dynamic-content {
 	flex:1; overflow-y: auto;
 }
