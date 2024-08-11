@@ -13,6 +13,13 @@ body {
 #myBoard {
 	width: 100%;
 }
+table.stats {
+	width:100%;
+	border: solid 1px #eeeeee;
+}
+table.stats td {
+	text-align: center;
+}
 .dynamic-content {
 	flex:1; overflow-y: auto;
 }

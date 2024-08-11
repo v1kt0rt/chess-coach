@@ -6,10 +6,16 @@
 			<div style="padding: 8px;">
 				<button class="control fas fa-chevron-left" @click="onBackClicked" :disabled="moveStack.length == 1"/>&nbsp;
 				<button class="control fas fa-sync" @click="onFlipClicked" />
+				{{status}}
 			</div>
-			<div>{{status}}</div>
-			<div v-if="openingInfo!==null">Opening: {{openingInfo}}</div>
-			<div v-if="stats!==null">Stats: {{stats}}</div>
+			<div v-if="openingInfo!==null">{{openingInfo}}</div>
+			<div v-if="whiteWins!==null">
+				<table class="stats">
+					<tr><td></td><th>White</th><th>Black</th><th>Draw</th></tr>
+					<tr><th>Lichess</th><td>{{whiteWins}}</td><td>{{blackWins}}</td><td>{{draw}}</td></tr>
+					<tr><th>Player</th><td>{{pWhiteWins}}</td><td>{{pBlackWins}}</td><td>{{pDraw}}</td></tr>
+				</table>
+			</div>
 			
 		</div>
 
@@ -41,7 +47,7 @@
 </template>
 
 <script>
-import { getData } from "./logic.js";
+import { getData, getUserData, calculatePercentages } from "./logic.js";
 
 const game = new Chess();
 let board = null;
@@ -53,7 +59,13 @@ export default {
 			stats: null,
 			openingInfo: null,
 			moveStack: [],
-			moves: []
+			moves: [],
+			whiteWins: null,
+			blackWins: null,
+			draw: null,
+			pWhiteWins: null,
+			pBlackWins: null,
+			pDraw: null,
 		}
 	},
 	methods: {
@@ -118,7 +130,15 @@ export default {
 		},
 		updateStatus() {
 			let fen = game.fen();
+			console.log("updateStatus");
+			this.whiteWins = null;
+			this.blackWins = null;
+			this.draw = null;
+			this.pWhiteWins = null;
+			this.pBlackWins = null;
+			this.pDraw = null;
 			getData(fen, this.updateOpeningInfo);
+			getUserData(fen, this.updateUserSpecificInfo)
 			this.status = "";
 			var moveColor = 'White';
 			if (game.turn() === 'b') {
@@ -152,8 +172,18 @@ export default {
 			} else {
 				this.openingInfo = null;
 			}
-			this.stats = "W:" + data.white + " B:" + data.black + " draw:" + data.draws;
+			let p = calculatePercentages(data);
+			this.whiteWins = p.whiteWins;
+			this.blackWins = p.blackWins;
+			this.draw = p.draw;
 			this.moves = data.moves;
+		},
+		updateUserSpecificInfo(response) {
+			console.log("user specific info received", response);
+			let p = calculatePercentages(response);
+			this.pWhiteWins = p.whiteWins;
+			this.pBlackWins = p.blackWins;
+			this.pDraw = p.draw;
 		}
 	},
 	created() {
